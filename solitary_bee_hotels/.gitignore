@@ -1,3 +1,7 @@
 venv
 datasets/
 runs/
+.env
+.DS_Store
+yolov8n.pt
+yolov8m.pt

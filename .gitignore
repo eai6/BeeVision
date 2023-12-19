@@ -1,2 +1,4 @@
 venv
 runs/*
+.DS_Store
+
