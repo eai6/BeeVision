@@ -3,10 +3,10 @@ from ultralytics import YOLO
 import pandas as pd
 
 # Load the YOLOv8 model
-model = YOLO('/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/runs/detect/train11/weights/best.pt')
+model = YOLO('models/nest_detection_model.pt')
 
 # Open the video file
-video_path = "/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/2023-05-10_18_50_01.mp4"
+video_path = "/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/2023-09-16/2023-09-16_10_30_00.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # Loop through the video frames
@@ -14,7 +14,7 @@ frame_counter = 0
 nest_detections = []
 nest_state = []
 frames = []
-while cap.isOpened() and frame_counter < 10:
+while cap.isOpened() :#and frame_counter < 10:
     frame_counter += 1
     # Read a frame from the video
     success, frame = cap.read()
@@ -24,10 +24,10 @@ while cap.isOpened() and frame_counter < 10:
         results = model(frame)
 
         # Visualize the results on the frame
-        #annotated_frame = results[0].plot()
+        annotated_frame = results[0].plot()
 
         # Display the annotated frame
-        #cv2.imshow("YOLOv8 Inference", annotated_frame)
+        cv2.imshow("YOLOv8 Inference", annotated_frame)
 
         # get detection 
         boxes = results[0].boxes.xywh.tolist()

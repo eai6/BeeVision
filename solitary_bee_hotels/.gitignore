@@ -5,3 +5,10 @@ runs/
 .DS_Store
 yolov8n.pt
 yolov8m.pt
+video_output.mp4
+video_output.gif
+outputs/*
+yolov8s.pt
+models/*
+```
+```

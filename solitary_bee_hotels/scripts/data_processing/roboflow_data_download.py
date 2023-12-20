@@ -10,7 +10,7 @@ def main(version):
     os.chdir("/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets")
     rf = Roboflow(api_key=os.getenv("ROBOFLOW_KEY"))
     project = rf.workspace("beevision").project("solitary-bee-hotels")
-    dataset = project.version(4).download("yolov8")
+    dataset = project.version(version).download("yolov8")
    
 
 if __name__ == "__main__":

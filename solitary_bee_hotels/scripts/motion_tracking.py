@@ -4,14 +4,10 @@ import numpy as np
 import pandas as pd
 
 # Load the YOLOv8 model
-model = YOLO('/Users/edwardamoah/Documents/GitHub/BeeVision/runs/detect/train/weights/best.pt')
+model = YOLO('models/bee_detection_model.pt')
 
-# Read video file or capture from camera (replace 'your_video.mp4' with your video file)
-video1 = '/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/2023-05-29_14_00_01.mp4'
-video2 = "/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/2023-05-10_17_46_37.mp4"
-video3 = "/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/2023-05-29_14_10_00.mp4"
-video4 = "/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/2023-05-29_15_20_00.mp4"
-video5 = "/Users/edwardamoah/Downloads/2023-09-08_10_10_01.mp4"
+# Replace with video path that you want to do motion tracking on
+video5 = "/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/datasets/videos/annotated/2023-09-08_10_10_01.mp4"
 cap = cv2.VideoCapture(video5)
 
 
@@ -115,6 +111,8 @@ while cap.isOpened():
     # Display the resulting frame
     if len(frame_contours) > 0:
         cv2.imshow('Motion Detection & YOLOv8 Inference', annotated_frame)
+        # save annotated frame
+        cv2.imwrite(f"/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/outputs/video_{frame_counter}.jpg", annotated_frame)
     else:
         cv2.imshow('Motion Detection & YOLOv8 Inference', current_frame)
 
