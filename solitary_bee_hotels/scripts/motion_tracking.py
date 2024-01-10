@@ -56,6 +56,10 @@ def main(video, persist, filename):
         
         # Convert the frame to grayscale
         current_frame_gray = cv2.cvtColor(current_frame, cv2.COLOR_BGR2GRAY)
+
+
+        if frame_counter == 1:
+            background_frame_gray = current_frame_gray
         
         # Calculate the absolute difference between the current frame and the previous frame
         frame_diff = cv2.absdiff(current_frame_gray, prev_frame_gray)
@@ -143,7 +147,8 @@ def main(video, persist, filename):
         
         # Update the previous frame
         #prev_frame_gray = current_frame_gray
-        prev_frame_gray = update_background(current_frame_gray, prev_frame_gray, 0.1)
+        #prev_frame_gray = update_background(current_frame_gray, prev_frame_gray, 0.1)
+        prev_frame_gray = background_frame_gray
         
         # Break the loop if 'q' key is pressed
         #if cv2.waitKey(1) & 0xFF == ord('q'):

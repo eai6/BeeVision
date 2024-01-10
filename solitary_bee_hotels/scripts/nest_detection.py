@@ -41,6 +41,7 @@ def main(video, filename, persist):
 
             # get detection 
             boxes = results[0].boxes.xywh.tolist()
+            boxes = [(x,y,w,h) for (x,y,w,h) in boxes]
             nest_detections.append(boxes)
 
             # nest labels
