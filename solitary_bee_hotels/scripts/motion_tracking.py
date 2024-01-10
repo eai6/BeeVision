@@ -3,6 +3,7 @@ from ultralytics import YOLO
 import numpy as np
 import pandas as pd
 import argparse
+import os
 
 
 def main(video, persist, filename):
@@ -33,6 +34,13 @@ def main(video, persist, filename):
     detections_cords = []
     frame_detections = []
     class_ids = []
+
+
+    # create folder to save annotated frames
+    file = video.split('/')[-1]
+    output_folder = f"/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/outputs/tracking_frames/{file.split('.')[0]}"
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     while cap.isOpened():
 
@@ -127,7 +135,7 @@ def main(video, persist, filename):
         if len(frame_contours) > 0:
             cv2.imshow('Motion Detection & YOLOv8 Inference', annotated_frame)
             # save annotated frame
-            cv2.imwrite(f"/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/outputs/video_{frame_counter}.jpg", annotated_frame)
+            cv2.imwrite(f"{output_folder}/video_{frame_counter}.jpg", annotated_frame)
         else:
             cv2.imshow('Motion Detection & YOLOv8 Inference', current_frame)
 
@@ -138,8 +146,8 @@ def main(video, persist, filename):
         prev_frame_gray = update_background(current_frame_gray, prev_frame_gray, 0.1)
         
         # Break the loop if 'q' key is pressed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        #if cv2.waitKey(1) & 0xFF == ord('q'):
+        #    break
 
     # Release the capture object and close all windows
     cap.release()
