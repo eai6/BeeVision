@@ -23,6 +23,12 @@ def main(video, persist, filename):
     prev_frame_gray = cv2.cvtColor(prev_frame, cv2.COLOR_BGR2GRAY)
 
     def update_background(current_frame, prev_bg, alpha):
+        '''
+        Update background using exponential weighted average
+        Exponential weighted average formula:
+        current_frame = alpha * current_frame + (1 - alpha) * prev_bg
+        
+        '''
         bg = alpha * current_frame + (1 - alpha) * prev_bg
         bg = np.uint8(bg)  
         return bg
