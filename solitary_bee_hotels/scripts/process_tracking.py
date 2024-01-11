@@ -177,17 +177,19 @@ def processVideo(data):
     for activity_period in activity_periods:
         activity_types.append(processActivity(data, activity_period))
 
-    return activity_types
+    # return as a dataframe
+    return pd.DataFrame(activity_types)
 
-def main(file):
+def main(file, output):
     data = pd.read_csv(file)
     print("Processing Video data")
     results = processVideo(data)
-    print(results)
+    results.to_csv(output, index=False)
 
 if __name__ == "__main__":
     # construct the argument parser and parse the arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/results.csv", required=False, help="path to processed traking csv file")
+    parser.add_argument("--output", default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/motion_output.csv", required=False, help="path to output csv file")   
     args = parser.parse_args()
-    main(args.file)
+    main(args.file, args.output)
