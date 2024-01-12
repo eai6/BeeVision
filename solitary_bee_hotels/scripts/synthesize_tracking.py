@@ -129,6 +129,8 @@ def main(tracking, nests, output):
     # get action
     data["action"] = data["nest_ids"].apply(getAction)
 
+    data["activity_period_id"] = data.index
+
     # save dataframe
     data[["trajectory", "timestamp", "nest_ids", "class", "action"]].to_csv(output, index=True)
 

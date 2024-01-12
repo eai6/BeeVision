@@ -178,12 +178,14 @@ def processVideo(data):
         activity_types.append(processActivity(data, activity_period))
 
     # return as a dataframe
-    return pd.DataFrame(activity_types)
+    return pd.DataFrame(activity_types), activity_periods
 
 def main(file, output):
     data = pd.read_csv(file)
     print("Processing Video data")
-    results = processVideo(data)
+    results, periods = processVideo(data)
+    results["activity_period_id"] = results.index
+    results["frames"] = periods
     results.to_csv(output, index=False)
 
 if __name__ == "__main__":
