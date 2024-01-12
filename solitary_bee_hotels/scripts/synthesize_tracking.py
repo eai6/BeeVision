@@ -124,7 +124,7 @@ def main(tracking, nests, output):
     data["nest_ids"] = data["trajectory"].apply(trajectoryNest)
 
     # get classes
-    data["class"] = data["classes"].apply(decodeClass)
+    data["species"] = data["classes"].apply(decodeClass)
 
     # get action
     data["action"] = data["nest_ids"].apply(getAction)
@@ -132,14 +132,15 @@ def main(tracking, nests, output):
     data["activity_period_id"] = data.index
 
     # save dataframe
-    data[["trajectory", "timestamp", "nest_ids", "class", "action"]].to_csv(output, index=True)
+    #data[["trajectory", "timestamp", "nest_ids", "class", "action"]].to_csv(output, index=True)
+    data.to_csv(output, index=False)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process tracking data')
     parser.add_argument('--tracking', default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/motion_output.csv", help='tracking data file')
     parser.add_argument('--nests', default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/nest_output.csv", help='nests data file')
-    parser.add_argument('--output', default="final.csv", help='output file')
+    parser.add_argument('--output', default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/final_output.csv", help='output file')
     args = parser.parse_args()
 
     main(args.tracking, args.nests, args.output)

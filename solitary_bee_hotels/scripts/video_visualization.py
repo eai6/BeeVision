@@ -2,9 +2,16 @@ import cv2
 from datetime import datetime, timedelta
 import ast
 import argparse
+import pandas as pd 
 
 
 def main(video, start, motion, nests, output):
+
+    # Load the motion tracking data
+    motion = pd.read_csv(motion)
+
+    # Load the nest identification data
+    nests = pd.read_csv(nests)
 
     # Define the start time of the video
     video_start_time = start
@@ -30,7 +37,7 @@ def main(video, start, motion, nests, output):
     def get_activity_period(frame_number):
         for index, row in motion.iterrows():
             activity_period = row["activity_period_id"]
-            frames = row["frames"]
+            frames = ast.literal_eval(row["frames"])
             if frame_number in range(frames[0], frames[1]+1):
                 return activity_period
         return -1 # no activity period found
@@ -75,11 +82,11 @@ def main(video, start, motion, nests, output):
             activity_period = get_activity_period(frame_number)
             motion_info = motion[motion["activity_period_id"] == activity_period].iloc[0]
             action = motion_info["action"]
-            nest_ids = motion_info["nest_id"]
+            nest_ids = motion_info["nest_ids"]
             #timestamps = motion_info["timestamp"]
             timestamps = frames_to_seconds(frame_number)
             timestamps = increment_timestamp(video_start_time, timestamps)
-            class_ = motion_info["class"]
+            class_ = motion_info["species"]
             
             # Add the motion information to the frame
             cv2.putText(frame, f"Action: {action}", (825, 580), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -100,9 +107,9 @@ def main(video, start, motion, nests, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process video, video processing and nest data to create a visualisation of the video')
-    parser.add_argument('--video', default="", help='path to the original video file')
+    parser.add_argument('--video', default="/Users/edwardamoah/Downloads/2023-05-29_14_20_01.mp4", help='path to the original video file')
     parser.add_argument('--start', default="14:20:02", help='start time of video')
-    parser.add_argument('--motion', default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/motion_output.csv",help='path to synthesized video processing csv file')
+    parser.add_argument('--motion', default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/final_output.csv",help='path to synthesized video processing csv file')
     parser.add_argument('--nests', default='/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/nest_output.csv',help='path to nests identification csv data file')
     parser.add_argument('--output', default="/Users/edwardamoah/Documents/GitHub/BeeVision/solitary_bee_hotels/outputs/video/video3.mp4", help='path to output video file to save the annotated video')
     args = parser.parse_args()
